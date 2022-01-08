@@ -1,3 +1,4 @@
 .env
 pwd.txt
-./node_modules
+.node_modules/
+.idea/
