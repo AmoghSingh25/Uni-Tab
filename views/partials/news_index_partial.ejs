@@ -4,8 +4,9 @@
 <% continue} %>
         <% if(i>9) {%>
             <% break;} %>
+    <a href='<%= resp['articles'][i]['link'] %>' target="_blank" rel="noopener noreferrer">
 <div class="card-body" style="box-shadow: 3px 3px 8px rgb(139,139,139);margin-bottom: 10px;">
-    <h4 class="card-title" style="font-size: 20px"><a href='<%= resp['articles'][i]['link'] %>' target="_blank" rel="noopener noreferrer"><%= resp['articles'][i]['title'] %></a></h4>
+    <h4 class="card-title" style="font-size: 20px"><%= resp['articles'][i]['title'] %></h4>
     <p class="card-text" style="font-size: 12px"><%= resp['articles'][i]['excerpt'] %></p>
-</div>
+</div></a>
 <% ct++; } %>

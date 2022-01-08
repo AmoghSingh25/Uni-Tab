@@ -109,6 +109,10 @@ app.use(function (req, res, next) {
 
 
 app.get('/index', async (req, res) => {
+    let arr=localStorage.get('tasks');
+    arr=arr.filter(n => n);
+    console.log(arr);
+    localStorage.set('tasks',arr);
     res.render('pages/index', {
         resp: localStorage.get('news'),
         weather: localStorage.get('weather'),
@@ -313,6 +317,7 @@ async function get_news()
     //console.log(await resp.json());
     return await resp.json()
 }
+
 
 async function get_weather(city) {
     let url = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + process.env.weather_apikey + '&units=metric'

@@ -1,9 +1,10 @@
 <% for(let i=0;i<resp['articles'].length;i++) { %>
 <% if(resp['articles'][i]['excerpt']==null && resp['articles'][i]['summary']==null ){ %>
     <% continue} %>
+<a href='<%= resp['articles'][i]['link'] %>' target="_blank" rel="noopener noreferrer">
 <div class="card" style="margin: 15px">
     <div class="card-body">
-        <h4 class="card-title" style="color: #6F42C1"><a href='<%= resp['articles'][i]['link'] %>' target="_blank" rel="noopener noreferrer"><%= resp['articles'][i]['title'] %></a></h4>
+        <h4 class="card-title" style="color: #6F42C1"><%= resp['articles'][i]['title'] %></h4>
         <div style="display: inline-flex;align-items: center;"><% if(resp['articles'][i]['media']!=null) {%>
             <img style="width: 100px; height: 80px" src='<%= resp['articles'][i]['media'] %>'>
             <% } %>
@@ -15,5 +16,5 @@
         </div>
     </div>
 </div>
-
+</a>
 <% } %>
