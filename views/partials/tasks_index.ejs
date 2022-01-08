@@ -1,0 +1,3 @@
+<% for(let i=0;i<tasks.length;i++) {%>
+<div class="tasks-div"  style="vertical-align: middle;display: flex; margin:10px; align-items: center;border-radius: 15px;background: var(--bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);" id="task-<%= i %>"><input type="checkbox" class="form-check-input" onclick="task_checked(<%= i %>)" style="/*float: left;*/margin-left: 20px;width: 20px;height: 20px;"><input type="text" id="<%= i %>"  class="tasks" style="text-align: left;vertical-align: middle;color: #000000;display: inline-block;background: var(--bs-cyan);width: 90%;height: 60%;margin: 20px;border-radius: 20px;padding-left: 15px;padding-top: 3px;font-weight: bold;" value="<%= tasks[i]['task'] %>"></input></div>
+<% } %>

@@ -1,0 +1,16 @@
+<div class="container" style="text-align: center;">
+    <div style="display: inline;vertical-align: middle;">
+        <h1 style="color: black;font-weight: bold;font-size: 50px;"><%= data['name'] %> <button type="button" class="btn btn-primary" id="refresh_weather">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"></path>
+                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"></path>
+                </svg>
+            </button></h1>
+        <h1 style="color: rgb(22,38,157);font-weight: bold;font-size: 35px;"><img width="100px" height="100px" src="http://openweathermap.org/img/wn/<%= data['weather'][0]['icon'] %>@2x.png"><%= data['weather'][0]['main'] %></h1>
+
+        <h1 style="color: rgb(22,38,157);font-weight: bold;font-size: 35px;"><%= data['main']['temp'] %> &#176;C</h1>
+        <br>
+        <h1 style="color: rgb(22,38,157);font-weight: bold;font-size: 35px;">Humidity : <%= data['main']['humidity'] %><br></h1>
+        <a href='https://openweathermap.org/city/<%= data['id'] %>' target="_blank" rel="noopener noreferrer">Click for more info</a>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<%  let ct=0;  %>
+<% for(let i=0;ct!=3;i++) { %>
+    <% if(resp['articles'][i]['excerpt']==null ){ %>
+<% continue} %>
+        <% if(i>9) {%>
+            <% break;} %>
+<div class="card-body" style="box-shadow: 3px 3px 8px rgb(139,139,139);margin-bottom: 10px;">
+    <h4 class="card-title" style="font-size: 20px"><a href='<%= resp['articles'][i]['link'] %>' target="_blank" rel="noopener noreferrer"><%= resp['articles'][i]['title'] %></a></h4>
+    <p class="card-text" style="font-size: 12px"><%= resp['articles'][i]['excerpt'] %></p>
+</div>
+<% ct++; } %>

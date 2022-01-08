@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <%- include('../partials/header_common') %>
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0"><a
+                    class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Brand</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item"><a class="nav-link active" href="index"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="profile"><i class="fas fa-user"></i><span>Profile</span></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="tasks"><i class="fas fa-table"></i><span>Tasks</span></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="news"><i class="far fa-user-circle"></i><span>News</span></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="weather"><i class="bi bi-cloud"></i><span>Weather</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content" style="color: var(--bs-purple);border-radius: 50px;">
+            <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <div class="container-fluid">
+                    <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i
+                                class="fas fa-bars"></i></button>
+                    <h3 class="text-dark mb-0">Dashboard</h3>
+                    <%- include('../partials/search_partial') %>
+                </div>
+                <div  style="margin-right: 50px">
+                    <span id='ct6' style="white-space: nowrap; font-size: 20px"></span>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                <div class="d-sm-flex justify-content-between align-items-center mb-4"></div>
+                <div class="row">
+                    <div class="col-md-6 col-xl-3 mb-4">
+                        <div class="card shadow border-start-primary py-2" style="margin: 10px;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-primary fw-bold text-xs mb-1 fs-6">
+                                            <span>Weather <a href="#" id='refresh_weather' >
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </a> </span>
+                                        </div>
+
+                                        <div class="text-dark fw-bold h5 mb-0"><span><%= weather['main']['temp'] %>&#176;C <%= weather['name'] %></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto"><i class="bi fa-2x bi-cloud-fill text-gray-300"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow border-start-info py-2" style="margin: 10px;">
+                            <div class="card-body">
+                                <div class="row align-items-center no-gutters">
+                                    <div class="col me-2">
+                                        <div class="text-uppercase text-info fw-bold text-xs mb-1 fs-6"><span>Tasks</span>
+                                        </div>
+                                        <div class="row g-0 align-items-center">
+                                            <div class="col-auto">
+                                                <% let s=' Tasks remaining' %>
+                                                <% if(tasks.length==1) %>
+                                                <% {s=' Task remaining'} %>
+                                                <div class="text-dark fw-bold h5 mb-0 me-3"><span><%= tasks.length %><%= s %></span></div>
+                                            </div>
+<!--                                            <div class="col">-->
+<!--                                                <div class="progress progress-sm">-->
+<!--                                                    <div class="progress-bar bg-info" aria-valuenow="50"-->
+<!--                                                         aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span-->
+<!--                                                                class="visually-hidden">50%</span></div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col" style="font-size: 10px;">
+
+                        <h1 style="font-size: 22.520000000000003px;color: var(--bs-indigo);font-weight: bold;margin-left: 15px;">
+                            News Flash <a href="#" id='refresh_news' class="btn btn-info btn-sm">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </a></h1>
+                        <div class="card" style="margin: 15px;">
+                            <%- include('../partials/news_index_partial',{resp:resp}) %>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" id="tasks-col">
+                        <div class="loader" style="display: none"></div>
+                        <h1 style="color: var(--bs-purple);font-weight: bold;">Tasks</h1>
+                        <!--                            <div   style="vertical-align: middle;display: flex; margin:10px; align-items: center;border-radius: 15px;background: var(&#45;&#45;bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);"><input type="checkbox" style="/*float: left;*/margin-left: 20px;width: 20px;height: 20px;"><span style="text-align: left;vertical-align: middle;color: #000000;display: inline-block;background: var(&#45;&#45;bs-cyan);width: 90%;height: 60%;margin: 20px;border-radius: 20px;padding-left: 15px;padding-top: 3px;font-weight: bold;">Text</span></div>-->
+                        <%- include('../partials/tasks_index',{tasks:tasks}) %>
+                        <div id="new-task-div" class="tasks-div"
+                             style="vertical-align: middle;display: none; margin:10px; align-items: center;border-radius: 15px;background: var(--bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);">
+                        </div>
+
+                        <!--                            <div style="position: relative">-->
+
+
+                        <!--                            </div>-->
+
+                        </div>
+                        <br>
+
+                    </div>
+                <a class="btn btn-info btn-circle ms-1" role="button" id="add_button"><i
+                            class="bi bi-plus-lg"></i></a>
+                <div style="margin-bottom: 20px">
+                    <a class="border rounded  scroll-to-top" href="#page-top"><i class="fas fa-angle-up fa-10x"
+                                                                                 style="font-size: 20px"></i></a>
+                </div>
+            </div>
+            <div></div>
+
+        </div>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+</div>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/theme.js"></script>
+<script src="/js/common_all.js"></script>
+<script src="/js/news.js"></script>
+<script src="/js/weather.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/tasks.js"></script>
+
+
+</body>
+<script>
+
+    $("#add_button").click(function () {
+        console.log('clicked');
+        let ct = $(".tasks-div").length-1;
+        console.log('ct',ct);
+        let id_str = 'id="task-'+ct+'"';
+        console.log(id_str);
+        $("#tasks-col").append('<div class="tasks-div" '+id_str+'  style="vertical-align: middle;display: flex; margin:10px; align-items: center;border-radius: 15px;background: var(--bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);" ><input type="checkbox" class="form-check-input"  onclick="task_checked('+ct+')" style="/*float: left;*/margin-left: 20px;width: 20px;height: 20px;"><input type="text" class="tasks" id="'+ct+'" style="text-align: left;vertical-align: middle;color: #000000;display: inline-block;background: var(--bs-cyan);width: 90%;height: 60%;margin: 20px;border-radius: 20px;padding-left: 15px;padding-top: 3px;font-weight: bold;" ></input></div');
+        id_str="#task-"+ct;
+        $(id_str).hide();
+        $(id_str).slideDown("slow",function(){});
+        add_listeners();
+    });
+
+
+</script>
+
+</html>
