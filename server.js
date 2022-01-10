@@ -200,7 +200,6 @@ app.post('/tasks-update', async (req, res) => {
 })
 
 app.get('/logout', (req, res) => {
-    req.session.destroy();
     const auth = firebase.getAuth();
     firebase.signOut(auth).then(() => {
         localStorage.remove('user-data');
@@ -208,13 +207,13 @@ app.get('/logout', (req, res) => {
         localStorage.remove('news');
         localStorage.remove('tasks');
         session.destroy();
+        req.session.destroy();
         res.redirect('/')
     }).catch((error) => {
         console.log('Error signing out')
         console.log(error);
+        res.redirect('/');
     });
-
-    res.redirect('/');
 });
 
 app.get('/test', async function (req, res) {
