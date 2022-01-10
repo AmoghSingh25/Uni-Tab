@@ -27,6 +27,7 @@
                 <li class="nav-item"><a class="nav-link" href="news"><i class="far fa-user-circle"></i><span>News</span></a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="weather"><i class="bi bi-cloud"></i><span>Weather</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="logout"><i class="bi bi-box-arrow-right"></i><span>Logout</span></a></li>
             </ul>
             <div class="text-center d-none d-md-inline">
                 <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
@@ -101,7 +102,7 @@
                             <a href="#" id='refresh_news' class="btn btn-info btn-sm">
                                 <i class="bi bi-arrow-clockwise"></i>
                             </a></h1>
-                        <div class="card" style="margin: 15px;">
+                        <div class="card" style="margin: 15px; overflow: auto; height: 50vh">
                             <%- include('../partials/news_index_partial',{resp:resp}) %>
                         </div>
                     </div>
@@ -109,7 +110,7 @@
                 <div class="row">
                     <div class="col" id="tasks-col">
                         <div class="loader" style="display: none"></div>
-                        <h1 style="color: var(--bs-purple);font-weight: bold;">Tasks</h1>
+                        <a href="/tasks"><h1 style="color: var(--bs-purple);font-weight: bold;">Tasks</h1></a>
                         <!--                            <div   style="vertical-align: middle;display: flex; margin:10px; align-items: center;border-radius: 15px;background: var(&#45;&#45;bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);"><input type="checkbox" style="/*float: left;*/margin-left: 20px;width: 20px;height: 20px;"><span style="text-align: left;vertical-align: middle;color: #000000;display: inline-block;background: var(&#45;&#45;bs-cyan);width: 90%;height: 60%;margin: 20px;border-radius: 20px;padding-left: 15px;padding-top: 3px;font-weight: bold;">Text</span></div>-->
                         <%- include('../partials/tasks_index',{tasks:tasks}) %>
                         <div id="new-task-div" class="tasks-div"

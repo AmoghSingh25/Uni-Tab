@@ -63,7 +63,14 @@ async function run() {
 run().catch(console.dir);
 
 
+
 app.get('/login', async (req, res) => {
+    session = req.session;
+    if (session.userid) {
+        res.redirect('/index')
+        console.log('Signed in')
+    }
+    else
     res.render('pages/login')
 })
 
@@ -71,13 +78,27 @@ app.post('/login', async (req, res) => {
     await signin(res, req, req.body.email, req.body.password)
     session = req.session;
     session.userid = uid;
-    //console.log(req.session)
     console.log("Signed in,redirecting ");
 });
 
 app.get('/registration', async (req, res) => {
+    session = req.session;
+    if (session.userid) {
+        res.redirect('/index')
+        console.log('Signed in')
+    }
+    else
     res.render('pages/registration',);
 });
+
+app.get('/home', async (req,res) => {
+    session = req.session;
+    if (session.userid) {
+        res.redirect('/index')
+        console.log('Signed in')
+    }
+    res.render('pages/home')
+})
 
 app.get('/', async function (req, res) {
     const auth = firebase.getAuth();
@@ -88,7 +109,7 @@ app.get('/', async function (req, res) {
         console.log('Signed in')
     } else {
         console.log('Not signed in')
-        res.redirect('/registration')
+        res.redirect('/home')
     }
 
 });
@@ -174,9 +195,15 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     const auth = firebase.getAuth();
     firebase.signOut(auth).then(() => {
+        localStorage.remove('user-data');
+        localStorage.remove('weather');
+        localStorage.remove('news');
+        localStorage.remove('tasks');
+        session.destroy();
         res.redirect('/')
     }).catch((error) => {
         console.log('Error signing out')
+        console.log(error);
     });
 
     res.redirect('/');
@@ -275,6 +302,7 @@ function signin(res, req, email, password) {
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            console.log(errorCode);
             return false;
         });
 }
