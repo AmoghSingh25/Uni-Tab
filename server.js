@@ -68,34 +68,41 @@ app.get('/login', async (req, res) => {
     session = req.session;
     if (session.userid) {
         res.redirect('/index')
-        console.log('Signed in')
     }
     else
-    res.render('pages/login')
+    {
+        let error=req.query.error;
+        if(error)
+            error=error.split('-').join(' ');
+        res.render('pages/login',{error:error})
+    }
 })
 
 app.post('/login', async (req, res) => {
-    await signin(res, req, req.body.email, req.body.password)
-    session = req.session;
-    session.userid = uid;
-    console.log("Signed in,redirecting ");
-});
+    if(await signin(res, req, req.body.email, req.body.password)) {
+        session = req.session;
+        session.userid = uid;
+    }
+    });
 
 app.get('/registration', async (req, res) => {
     session = req.session;
     if (session.userid) {
         res.redirect('/index')
-        console.log('Signed in')
     }
     else
-    res.render('pages/registration',);
+    {
+        let error=req.query.error;
+        if(error)
+            error=error.split('-').join(' ');
+        res.render('pages/registration',{error:error});
+    }
 });
 
 app.get('/home', async (req,res) => {
     session = req.session;
     if (session.userid) {
         res.redirect('/index')
-        console.log('Signed in')
     }
     res.render('pages/home')
 })
@@ -106,16 +113,14 @@ app.get('/', async function (req, res) {
 
     if (session.userid) {
         res.redirect('/index')
-        console.log('Signed in')
     } else {
-        console.log('Not signed in')
         res.redirect('/home')
     }
 
 });
 
 app.post('/register', async (req, res) => {
-    await signup(req, res, req.body.email, req.body.password)
+        await signup(req, res, req.body.email, req.body.password)
 });
 
 app.use(function (req, res, next) {
@@ -132,7 +137,6 @@ app.use(function (req, res, next) {
 app.get('/index', async (req, res) => {
     let arr=localStorage.get('tasks');
     arr=arr.filter(n => n);
-    console.log(arr);
     localStorage.set('tasks',arr);
     res.render('pages/index', {
         resp: localStorage.get('news'),
@@ -148,12 +152,10 @@ app.get('/news', async (req, res) => {
 
 app.post('/refresh_weather',async (req, res) => {
     localStorage.set('weather',await get_weather((localStorage.get('user-data')['city'])));
-    console.log('Refreshed weather');
 });
 
 app.post('/refresh_news',async (req, res) => {
     localStorage.set('news',await get_news());
-    console.log('Refreshed news');
 });
 
 app.get('/weather', async function (req, res) {
@@ -174,8 +176,12 @@ app.post('/tasks-delete', async (req, res) =>{
     tasks_doc.splice(req.body.task_id,1);
     localStorage.set('tasks',tasks_doc);
     await update_tasks(tasks_doc)
-    console.log('deleted',tasks_doc);
-    return 'done';
+    var response = {
+        status  : 200,
+        success : 'Updated Successfully'
+    }
+
+    res.end(JSON.stringify(response));
 })
 
 app.post('/tasks-update', async (req, res) => {
@@ -185,10 +191,12 @@ app.post('/tasks-update', async (req, res) => {
     let tasks_doc = localStorage.get('tasks');
     tasks_doc[task_id]={task: task_name, status: status, id: task_id}
     localStorage.set('tasks', tasks_doc);
-    console.log('post', req.body);
-    console.log('local storage', localStorage.get('tasks'));
     await update_tasks(tasks_doc);
-    //res.redirect('/index');
+    const response = {
+        status: 200,
+        success: 'Updated Successfully'
+    };
+    res.end(JSON.stringify(response));
 })
 
 app.get('/logout', (req, res) => {
@@ -220,9 +228,6 @@ console.log('Server started at http://localhost:' + 8080);
 
 async function listDatabases(client) {
     let databasesList = await client.db().admin().listDatabases();
-
-    console.log("Databases:");
-    databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 }
 
 async function get_loc() {
@@ -234,9 +239,6 @@ async function get_loc() {
 async function insert_data(client, doc, tasks) {
     const result = await client.db("user").collection("userDetails").insertOne(doc);
     await client.db("user").collection("tasks").insertOne({_id: doc['_id'], tasks: tasks});
-    console.log(
-        `A document was inserted with the _id: ${result.insertedId}`,
-    );
 }
 
 async function signup(req, res, email, password) {
@@ -251,20 +253,19 @@ async function signup(req, res, email, password) {
             let tasks = []
             await insert_data(client, doc, tasks);
             await loadup_process();
+            res.redirect('/index');
         })
         .catch((error) => {
-            const errorCode = error.code;
+            let errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorMessage);
-            console.log(errorCode);
-            if(errorCode==='auth/email-already-in-use')
-            {
-                popupS.alert({content: 'Email already in use. Wanna try logging in?'})
+            errorCode = errorCode.substring(5);
+            let uri = encodeURIComponent(errorCode);
+            if (errorCode === 'email-already-in-use') {
+                res.redirect('/login?error=' + uri);
             }
-            throw "error";
-        })
-        .finally(() => {
-            res.redirect('/index');
+            else
+                res.redirect('/registration?error=' + uri);
+            // throw errorCode;
         })
 }
 
@@ -300,10 +301,15 @@ function signin(res, req, email, password) {
             return true;
         })
         .catch((error) => {
-            const errorCode = error.code;
+            let errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode);
-            return false;
+            errorCode = errorCode.substring(5);
+            let uri = encodeURIComponent(errorCode);
+            if (errorCode === 'user-not-found') {
+                res.redirect('/registration?error=' + uri);
+            }
+            else
+                res.redirect('/login?error=' + uri);
         });
 }
 
@@ -342,7 +348,6 @@ async function get_news()
         'x-api-key': process.env['newscatcher_api']
     };
     const resp = await fetch(url,{headers:headers});
-    //console.log(await resp.json());
     return await resp.json()
 }
 

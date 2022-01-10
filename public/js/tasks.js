@@ -22,17 +22,23 @@ function add_listeners() {
     document.querySelectorAll('.tasks').forEach(function (item) {
         item.addEventListener('keyup', async function (event) {
             if (event.keyCode === 13) {
+                $('#loading').show();
                 document.activeElement.blur();
                 let doc = {
                     task: item.value,
                     task_status: 0,
                     task_id: item.id,
                 }
-                console.log(doc)
-                await postData('/tasks-update', doc);
-                console.log('here');
-                window.location.reload();
-
+                let ct=document.getElementsByClassName('tasks-div').length-1;
+                document.getElementById('task-count').innerHTML=ct+" Tasks remaining";
+                let result = await postData('/tasks-update', doc);
+                console.log('done-success');
+                console.log(result);
+                if (result.status === 200)
+                {
+                    $('#loading').hide();
+                    console.log('done-success');
+                }
             }
         });
     });
@@ -40,10 +46,25 @@ function add_listeners() {
 
 async function task_checked(id)
 {
+    $('#loading').show();
     console.log('checked');
     let div = document.getElementById("task-"+id);
-    div.style.display="none";
+    div.remove();
+    let ct=document.getElementsByClassName('tasks-div').length-1;
+    if(ct!=1)
+        document.getElementById('task-count').innerHTML=ct+" Tasks remaining";
+    else
+        document.getElementById('task-count').innerHTML=ct+" Task remaining";
+    console.log(ct);
     let resp = await postData('/tasks-delete', {task_id:id});
+    if(resp.status===200)
+    {
+        $('#loading').hide();
+    }
+    else
+    {
+        console.log('error');
+    }
 }
 
 async function postData(url = '', data = {}) {
@@ -59,7 +80,7 @@ async function postData(url = '', data = {}) {
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(data)
     });
-    //return response.json();
+    return response.json();
 }
 
 

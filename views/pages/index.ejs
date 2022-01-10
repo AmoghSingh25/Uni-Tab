@@ -9,6 +9,9 @@
 </head>
 
 <body id="page-top">
+<div id="loading" class="coverAll" style="display: none; z-index: 99;top: 0px;left: 0px;width: 100%;height: 100%;">
+<!--    <img id="loading-image" src="img/loader.gif" alt="Loading..." />-->
+</div>
 <div id="wrapper">
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
         <div class="container-fluid d-flex flex-column p-0"><a
@@ -77,9 +80,9 @@
                                         <div class="row g-0 align-items-center">
                                             <div class="col-auto">
                                                 <% let s=' Tasks remaining' %>
-                                                <% if(tasks.length==1) %>
-                                                <% {s=' Task remaining'} %>
-                                                <div class="text-dark fw-bold h5 mb-0 me-3"><span><%= tasks.length %><%= s %></span></div>
+                                                <% if (tasks.length===1){s=' Task remaining' } else {%>
+                                                <%  s=' Tasks remaining';} %>
+                                                <div class="text-dark fw-bold h5 mb-0 me-3" id="task-count"><span><%= tasks.length %><%= s %></span></div>
                                             </div>
 <!--                                            <div class="col">-->
 <!--                                                <div class="progress progress-sm">-->
@@ -156,16 +159,18 @@
 <script>
 
     $("#add_button").click(function () {
+        $('#loading').show();
         console.log('clicked');
         let ct = $(".tasks-div").length-1;
         console.log('ct',ct);
         let id_str = 'id="task-'+ct+'"';
         console.log(id_str);
-        $("#tasks-col").append('<div class="tasks-div" '+id_str+'  style="vertical-align: middle;display: flex; margin:10px; align-items: center;border-radius: 15px;background: var(--bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);" ><input type="checkbox" class="form-check-input"  onclick="task_checked('+ct+')" style="/*float: left;*/margin-left: 20px;width: 20px;height: 20px;"><input type="text" class="tasks" id="'+ct+'" style="text-align: left;vertical-align: middle;color: #000000;display: inline-block;background: var(--bs-cyan);width: 90%;height: 60%;margin: 20px;border-radius: 20px;padding-left: 15px;padding-top: 3px;font-weight: bold;" ></input></div');
+        $("#tasks-col").append('<div class="tasks-div" '+id_str+'  style="vertical-align: middle;display: flex; margin:10px; align-items: center;border-radius: 15px;background: var(--bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);" ><input type="checkbox" class="form-check-input"   onclick="task_checked('+ct+')" style="/*float: left;*/margin-left: 20px;width: 20px;height: 20px;"><input type="text" placeholder="Press Enter to save task" class="tasks" id="'+ct+'" style="text-align: left;vertical-align: middle;color: #000000;display: inline-block;background: var(--bs-cyan);width: 90%;height: 60%;margin: 20px;border-radius: 20px;padding-left: 15px;padding-top: 3px;font-weight: bold;" ></input></div');
         id_str="#task-"+ct;
         $(id_str).hide();
         $(id_str).slideDown("slow",function(){});
         add_listeners();
+        $('#loading').hide();
     });
 
 

@@ -6,6 +6,25 @@
     border: none;
 }
 
+.coverAll {
+    z-index: 1000;
+    background-color: #CCC;
+    position: fixed;
+    opacity: 0.7;
+    background-image:url(/img/loader.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+#loading-image {
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 a:link {
     text-decoration: none;
 }
