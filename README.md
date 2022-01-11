@@ -7,7 +7,7 @@ A single website to perform multiple functions like reading the news or a task t
 
 
 ### Additional Resources / Info
-#### [Link to website](www.unitab.tk)
+#### [Link to website](https://www.unitab.tk)
 This website currently offers news, task trackers/To-Do list, a Web Search bar and a weather viewer.
 
 
