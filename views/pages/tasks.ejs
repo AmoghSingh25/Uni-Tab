@@ -48,10 +48,10 @@
                     <span id='ct6' style="white-space: nowrap; font-size: 20px"></span>
                 </div>
             </nav>
-            <div class="container">
-                <div></div>
+            <div class="container" id="tasks-col">
+                <%- include('../partials/tasks_index') %>
             </div>
-            <%- include('../partials/tasks_index') %>
+
             <div style="margin: 20px">
                 <a class="btn btn-info btn-circle ms-1" id='add_button' role="button"><i class="bi bi-plus-lg"></i></a>
             </div>
@@ -64,7 +64,25 @@
 <script src="/js/common_all.js"></script>
 <script src="/js/search.js"></script>
 <script src="/js/tasks.js"></script>
+<script>
 
+    $("#add_button").click(function () {
+        $('#loading').show();
+        console.log('clicked');
+        let ct = $(".tasks-div").length;
+        console.log('ct',ct);
+        let id_str = 'id="task-'+ct+'"';
+        console.log(id_str);
+        $("#tasks-col").append('<div class="tasks-div" '+id_str+'  style="vertical-align: middle;display: flex; margin:10px; align-items: center;border-radius: 15px;background: var(--bs-indigo);height: 50px;box-shadow: 2px 3px 4px 0px rgb(110,171,180);" ><input type="checkbox" class="form-check-input"   onclick="task_checked('+ct+')" style="/*float: left;*/margin-left: 20px;width: 20px;height: 20px;"><input type="text" placeholder="Press Enter to save task" class="tasks" id="'+ct+'" style="text-align: left;vertical-align: middle;color: #000000;display: inline-block;background: var(--bs-cyan);width: 90%;height: 60%;margin: 20px;border-radius: 20px;padding-left: 15px;padding-top: 3px;font-weight: bold;" ></input></div');
+        id_str="#task-"+ct;
+        $(id_str).hide();
+        $(id_str).slideDown("slow",function(){});
+        add_listeners();
+        $('#loading').hide();
+    });
+
+
+</script>
 </body>
 
 </html>

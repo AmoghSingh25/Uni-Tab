@@ -30,7 +30,8 @@ function add_listeners() {
                     task_id: item.id,
                 }
                 let ct=document.getElementsByClassName('tasks-div').length-1;
-                document.getElementById('task-count').innerHTML=ct+" Tasks remaining";
+                if(document.getElementById('task-count'))
+                    document.getElementById('task-count').innerHTML=ct+" Tasks remaining";
                 let result = await postData('/tasks-update', doc);
                 console.log('done-success');
                 console.log(result);
@@ -51,9 +52,9 @@ async function task_checked(id)
     let div = document.getElementById("task-"+id);
     div.remove();
     let ct=document.getElementsByClassName('tasks-div').length-1;
-    if(ct!=1)
+    if(ct!=1 && document.getElementById('task-count'))
         document.getElementById('task-count').innerHTML=ct+" Tasks remaining";
-    else
+    else if(document.getElementById('task-count'))
         document.getElementById('task-count').innerHTML=ct+" Task remaining";
     console.log(ct);
     let resp = await postData('/tasks-delete', {task_id:id});
