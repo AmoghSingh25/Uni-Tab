@@ -7,11 +7,11 @@ A single website to perform multiple functions like reading the news or a task t
 
 
 ### Additional Resources / Info
-####[Link to website](www.unitab.tk)
+#### [Link to website](www.unitab.tk)
 This website currently offers news, task trackers/To-Do list, a Web Search bar and a weather viewer.
 
 
-####Software used : -
+#### Software used : -
 * MongoDB Atlas - Storing User information and data like tasks.
 * Node.js and Express - Backend server code and routing
 * Weather - [OpenWeatherMap API] (https://www.openweathermap.org)
@@ -20,18 +20,18 @@ This website currently offers news, task trackers/To-Do list, a Web Search bar a
 * Clock - [Moment.js](https://www.momentjs.com)
 * Location - [IPInfo.io](https://ipinfo.io/)
 
-###Screenshots
-#####Home Page
+#### Screenshots
+##### Home Page
 ![Home Page](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/329ywgjjkrpl08nklplk.jpeg)
 
-#####Dashboard
+##### Dashboard
 ![Dashboard](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bvedaaa0yblpnyntumpb.jpeg)
 
-#####Tasks
+##### Tasks
 ![Tasks](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nl6pytomsb2h5c4m3ti0.jpeg)
 
-#####News
+##### News
 ![News](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cjq3a65ldpovwmjxkahd.png)
 
-#####Weather
+##### Weather
 ![Weather](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fn6r75wgzfhbjsr94n8v.jpeg)
