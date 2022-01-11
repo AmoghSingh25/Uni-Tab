@@ -14,9 +14,9 @@ This website currently offers news, task trackers/To-Do list, a Web Search bar a
 #### Software used : -
 * MongoDB Atlas - Storing User information and data like tasks.
 * Node.js and Express - Backend server code and routing
-* Weather - [OpenWeatherMap API] (https://www.openweathermap.org)
-* News - [NewsCatcher News API](https://newscatcherapi.com/) and [NewsData.io API] (https://newsdata.io/)
-* User authentication and creation - [Firebase] (https://firebase.google.com)
+* Weather - [OpenWeatherMap API](https://www.openweathermap.org)
+* News - [NewsCatcher News API](https://newscatcherapi.com/) and [NewsData.io API](https://newsdata.io/)
+* User authentication and creation - [Firebase](https://firebase.google.com)
 * Clock - [Moment.js](https://www.momentjs.com)
 * Location - [IPInfo.io](https://ipinfo.io/)
 
