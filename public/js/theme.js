@@ -17,6 +17,10 @@
       // Toggle the side navigation
       toggle.addEventListener('click', function(e) {
         document.body.classList.toggle('sidebar-toggled');
+        if(document.body.classList.contains('sidebar-toggled'))
+          sessionStorage.setItem('collapsed','on');
+        else
+          sessionStorage.setItem('collapsed','off');
         sidebar.classList.toggle('toggled');
 
         if (sidebar.classList.contains('toggled')) {
